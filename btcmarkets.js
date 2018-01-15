@@ -71,4 +71,4 @@ queryAllCurrencies = () => {
 }
 
 queryAllCurrencies(); // For instant gratification
-setInterval(queryAllCurrencies, 20000); // Scheduled query
+setInterval(queryAllCurrencies, config.refreshRate); // Scheduled query

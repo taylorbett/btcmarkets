@@ -28,6 +28,9 @@ exports.currencies = [
         }
     ];
 
+// Refresh rate in milliseconds
+exports.refreshRate = 20000;
+
 // Change colors for your readout
 // Go to https://stackoverflow.com/a/41407246 for some quick options
 exports.colors = {
