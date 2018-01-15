@@ -1,3 +1,5 @@
+![Example readout](/example.png)
+
 # btcmarkets
 Lightweight node script to watch BTCMarkets prices in your terminal.
 
