@@ -24,7 +24,7 @@ exports.currencies = [
             currency: 'ETH',
             conversion: 'BTC',
             holding: 0,
-            decimals: 2,
+            decimals: 6,
         }
     ];
 

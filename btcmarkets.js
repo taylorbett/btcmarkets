@@ -22,13 +22,17 @@ logData = () => {
     console.log(requestSentAt.format('HH:mm:ss, DD MMM'));
     console.log('===================')
     for (let i = 0; i < config.currencies.length; i += 1) {
-        let textColor = collectedResults[i].bestBid > collectedResults[i].lastPrice ? config.colors.positive : config.colors.negative;
-        if (collectedResults[i].bestBid === collectedResults[i].lastPrice) {
-            textColor = config.colors.neutral;
+        if (collectedResults[i].success !== 'undefined' && collectedResults[i].success === false) {
+            console.error(`Data retrieval for ${config.currencies[i].currency}/${config.currencies[i].conversion} failed.`)
+        } else {
+            let textColor = collectedResults[i].bestBid > collectedResults[i].lastPrice ? config.colors.positive : config.colors.negative;
+            if (collectedResults[i].bestBid === collectedResults[i].lastPrice) {
+                textColor = config.colors.neutral;
+            }
+            console.log(collectedResults[i].instrument + '/' + collectedResults[i].currency, config.colors.accent, (collectedResults[i].bestBid * config.currencies[i].holding).toFixed(config.currencies[i].decimals || 2), '\x1b[0m');
+            console.log('BID ', textColor, collectedResults[i].bestBid.toFixed(config.currencies[i].decimals || 2), '\x1b[0m');
+            console.log('ASK ', textColor, collectedResults[i].bestAsk.toFixed(config.currencies[i].decimals || 2), '\x1b[0m');
         }
-        console.log(collectedResults[i].instrument + '/' + collectedResults[i].currency, config.colors.accent, (collectedResults[i].bestBid * config.currencies[i].holding).toFixed(config.currencies[i].decimals || 2), '\x1b[0m');
-        console.log('BID ', textColor, collectedResults[i].bestBid.toFixed(config.currencies[i].decimals || 2), '\x1b[0m');
-        console.log('ASK ', textColor, collectedResults[i].bestAsk.toFixed(config.currencies[i].decimals || 2), '\x1b[0m');
         console.log('-------------------');
     }
     reset();
@@ -54,6 +58,9 @@ getLatest = (position) => {
         var body = '';
         response.on('data', (d) => {
             body += d;
+        });
+        response.on('error', (err) => {
+            console.error(err);
         });
         response.on('end', () => {
             var parsed = JSON.parse(body);
